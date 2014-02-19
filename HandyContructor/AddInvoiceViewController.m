@@ -20,6 +20,11 @@
     __weak IBOutlet UITextField *sqft;
     
     NSMutableDictionary *service;
+    
+    NSMutableArray *objects;
+    
+    NSMutableArray *tableData;
+    int sections;
 }
 @property (weak, nonatomic) IBOutlet UILabel *lblService;
 
@@ -32,6 +37,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        
     }
     return self;
 }
@@ -40,9 +46,13 @@
 - (void)viewDidLoad
 {
     service = [[NSMutableDictionary alloc] init];
+    tableData = [[NSMutableArray alloc] init];
+    
+    
+    
     if ([[self dictionaryFromPlist] objectForKey:@"tax"])
         tax.text = [[self dictionaryFromPlist] objectForKey:@"tax"];
-    
+    sections = 4;
     if (objectService >= 0) {
         self.title = @"Edit Invoice";
         height.text = [[view.data objectAtIndex:objectService] objectForKey:@"length"];
@@ -135,6 +145,9 @@
     BOOL result = [plistDict writeToFile:path atomically:YES];
     return result;
 }
+
+
+
 - (void)tableView:(UITableView *)aTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [aTableView deselectRowAtIndexPath:indexPath animated:YES];
     
@@ -142,16 +155,80 @@
     NSMutableArray *tempArray = [[NSMutableArray alloc] init];
     [tempArray addObject:[NSIndexPath indexPathForRow:indexPath.row + 1 inSection:1]];
     
-//    [mainArray insertObject:@"new row" atIndex:indexPath.row+1];
     
-//    [[self tableView] beginUpdates];
-//    [[self tableView] insertRowsAtIndexPaths:(NSArray *)tempArray withRowAnimation:UITableViewRowAnimationFade];
-//    [[self tableView] endUpdates];
-//    
+    sections++;
+    
+    NSIndexPath *path1 = [NSIndexPath indexPathForRow:0 inSection:3]; //ALSO TRIED WITH indexPathRow:0
+    NSIndexPath *path2 = [NSIndexPath indexPathForRow:1 inSection:3]; //ALSO TRIED WITH indexPathRow:0
+    NSIndexPath *path3 = [NSIndexPath indexPathForRow:2 inSection:3]; //ALSO TRIED WITH indexPathRow:0
+    NSArray *indexArray = [NSArray arrayWithObjects:path1,path2,path3,nil];
+    
+    [[self tableView] beginUpdates];
+    [[self tableView] insertRowsAtIndexPaths:indexArray withRowAnimation:UITableViewRowAnimationFade];
+    [[self tableView] endUpdates];
+
     [height resignFirstResponder];
     [width resignFirstResponder];
     [tax resignFirstResponder];
     [sqft resignFirstResponder];
+}
+
+
+
+
+#pragma mark - Table View
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return sections;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    NSLog(@"section: %d",section);
+    if (section < 2 || section == sections - 1) {
+        return 1;
+    }
+    else{
+        return 3;
+    }
+}
+
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    UITableViewCell *cell;
+    
+    if (indexPath.section == 0) {
+        cell = [tableView dequeueReusableCellWithIdentifier:@"TaxCell"];
+    }
+    else if (indexPath.section == 1){
+        cell = [tableView dequeueReusableCellWithIdentifier:@"ServiceCell"];
+    }
+    else if (indexPath.section >= 2 && indexPath.section < sections){
+        
+        switch (indexPath.row) {
+            case 0:
+                cell = [tableView dequeueReusableCellWithIdentifier:@"WidthCell"];
+                break;
+            case 1:
+                cell = [tableView dequeueReusableCellWithIdentifier:@"LengthCell"];
+                break;
+            case 2:
+                cell = [tableView dequeueReusableCellWithIdentifier:@"SQFTCell"];
+                break;
+                
+            default:
+                break;
+        }
+        
+    }
+    else{
+        cell = [tableView dequeueReusableCellWithIdentifier:@"AddNewCell"];
+    }
+    
+    return cell;
 }
 
 @end

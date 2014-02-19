@@ -350,6 +350,7 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     AddInvoiceViewController *dvc = (AddInvoiceViewController *) [segue.destinationViewController topViewController];
+    NSLog(@"selected row: %d",selectedRow);
     [dvc setSender:self andObject:selectedRow];
 }
 
