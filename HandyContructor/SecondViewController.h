@@ -9,5 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface SecondViewController : UIViewController
+@property (atomic,retain) NSMutableArray *data;
+@property (weak) IBOutlet UITableView *table;
 
 @end

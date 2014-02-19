@@ -22,6 +22,9 @@
 		68BC7EEA18B0140E005875C6 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68BC7EC918B0140E005875C6 /* UIKit.framework */; };
 		68BC7EF218B0140E005875C6 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 68BC7EF018B0140E005875C6 /* InfoPlist.strings */; };
 		68BC7EF418B0140E005875C6 /* HandyContructorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 68BC7EF318B0140E005875C6 /* HandyContructorTests.m */; };
+		68BC7F0318B01E8B005875C6 /* AddServiceListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 68BC7F0218B01E8B005875C6 /* AddServiceListViewController.m */; };
+		68BC7F0618B01F14005875C6 /* AddInvoiceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 68BC7F0518B01F14005875C6 /* AddInvoiceViewController.m */; };
+		68D5A42618B06AC9004B1139 /* ServicesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 68D5A42518B06AC9004B1139 /* ServicesViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +59,12 @@
 		68BC7EEF18B0140E005875C6 /* HandyContructorTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "HandyContructorTests-Info.plist"; sourceTree = "<group>"; };
 		68BC7EF118B0140E005875C6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		68BC7EF318B0140E005875C6 /* HandyContructorTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HandyContructorTests.m; sourceTree = "<group>"; };
+		68BC7F0118B01E8B005875C6 /* AddServiceListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddServiceListViewController.h; sourceTree = "<group>"; };
+		68BC7F0218B01E8B005875C6 /* AddServiceListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddServiceListViewController.m; sourceTree = "<group>"; };
+		68BC7F0418B01F14005875C6 /* AddInvoiceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddInvoiceViewController.h; sourceTree = "<group>"; };
+		68BC7F0518B01F14005875C6 /* AddInvoiceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddInvoiceViewController.m; sourceTree = "<group>"; };
+		68D5A42418B06AC9004B1139 /* ServicesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServicesViewController.h; sourceTree = "<group>"; };
+		68D5A42518B06AC9004B1139 /* ServicesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServicesViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,6 +133,12 @@
 				68BC7EDE18B0140E005875C6 /* SecondViewController.m */,
 				68BC7EE018B0140E005875C6 /* Images.xcassets */,
 				68BC7ECC18B0140E005875C6 /* Supporting Files */,
+				68BC7F0118B01E8B005875C6 /* AddServiceListViewController.h */,
+				68BC7F0218B01E8B005875C6 /* AddServiceListViewController.m */,
+				68BC7F0418B01F14005875C6 /* AddInvoiceViewController.h */,
+				68BC7F0518B01F14005875C6 /* AddInvoiceViewController.m */,
+				68D5A42418B06AC9004B1139 /* ServicesViewController.h */,
+				68D5A42518B06AC9004B1139 /* ServicesViewController.m */,
 			);
 			path = HandyContructor;
 			sourceTree = "<group>";
@@ -254,9 +269,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				68D5A42618B06AC9004B1139 /* ServicesViewController.m in Sources */,
+				68BC7F0318B01E8B005875C6 /* AddServiceListViewController.m in Sources */,
 				68BC7EDF18B0140E005875C6 /* SecondViewController.m in Sources */,
 				68BC7ED618B0140E005875C6 /* AppDelegate.m in Sources */,
 				68BC7EDC18B0140E005875C6 /* FirstViewController.m in Sources */,
+				68BC7F0618B01F14005875C6 /* AddInvoiceViewController.m in Sources */,
 				68BC7ED218B0140E005875C6 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -466,6 +484,7 @@
 				68BC7EF918B0140E005875C6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		68BC7EFA18B0140E005875C6 /* Build configuration list for PBXNativeTarget "HandyContructorTests" */ = {
 			isa = XCConfigurationList;
@@ -474,6 +493,7 @@
 				68BC7EFC18B0140E005875C6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

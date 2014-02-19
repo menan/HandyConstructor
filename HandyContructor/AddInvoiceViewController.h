@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AddInvoiceViewController : UIViewController
-
+@interface AddInvoiceViewController : UITableViewController
+- (void) setSender:(id) sender andObject:(int) obj;
+- (void) setService: (NSMutableDictionary *) s;
 @end

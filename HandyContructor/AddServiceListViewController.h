@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AddServiceListViewController : UIViewController
-
+@interface AddServiceListViewController : UITableViewController
+- (void) setSender:(id) sender andObject:(int) obj;
 @end

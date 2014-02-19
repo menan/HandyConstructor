@@ -9,5 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface FirstViewController : UIViewController
+@property (atomic,retain) NSMutableArray *data;
+@property (weak) IBOutlet UITableView *table;
+
 
 @end
