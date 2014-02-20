@@ -22,7 +22,8 @@
     NSMutableDictionary *service;
     
     NSMutableArray *objects;
-    
+    NSMutableArray *mutArray;
+    NSMutableArray *mutArray2;
     NSMutableArray *tableData;
     int sections;
 }
@@ -47,22 +48,51 @@
 {
     service = [[NSMutableDictionary alloc] init];
     tableData = [[NSMutableArray alloc] init];
+    mutArray = [[NSMutableArray alloc] init];
+    mutArray2 = [[NSMutableArray alloc] init];
     
     
     
+    sections = 4;
+    
+    
+    [self.tableView reloadData];
+    tax = [[[[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]] contentView] subviews] objectAtIndex:1];
+    _lblService = [[[[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1]] contentView] subviews] objectAtIndex:1];
     if ([[self dictionaryFromPlist] objectForKey:@"tax"])
         tax.text = [[self dictionaryFromPlist] objectForKey:@"tax"];
-    sections = 4;
+    
     if (objectService >= 0) {
+        
+        sections += [[[view.data objectAtIndex:objectService] objectForKey:@"units"] count] - 1;
+        [self.tableView reloadData];
+        
         self.title = @"Edit Invoice";
-        height.text = [[view.data objectAtIndex:objectService] objectForKey:@"length"];
-        width.text = [[view.data objectAtIndex:objectService] objectForKey:@"width"];
+        //        [self addUnitSection:[[[view.data objectAtIndex:objectService] objectForKey:@"units"] count] - 1 withAnimation:NO];
+        
         service = [[view.data objectAtIndex:objectService] objectForKey:@"service"];
         _lblService.text = [[[view.data objectAtIndex:objectService] objectForKey:@"service"] objectForKey:@"name"];
+        for (int i = 2;i < sections - 1; i++) {
+            width = [[[[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:i]] contentView] subviews] objectAtIndex:1];
+            height = [[[[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:i]] contentView] subviews] objectAtIndex:1];
+            sqft = [[[[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:i]] contentView] subviews] objectAtIndex:1];
+            
+            height.text = [[[[view.data objectAtIndex:objectService] objectForKey:@"units"] objectAtIndex:i - 2 ] objectForKey:@"length"];
+            width.text = [[[[view.data objectAtIndex:objectService] objectForKey:@"units"] objectAtIndex:i - 2 ] objectForKey:@"width"];
+            sqft.text = [[[[view.data objectAtIndex:objectService] objectForKey:@"units"] objectAtIndex:i - 2 ] objectForKey:@"sqft"];
+            
+            
+        }
+        
     }
+    
+
+    
+    
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
 }
+
 
 - (void)didReceiveMemoryWarning
 {
@@ -99,6 +129,8 @@
 }
 
 - (IBAction)saveTapped:(id)sender{
+    
+    
     NSLog(@"service: %@",[service objectForKey:@"name"]);
     if ([service objectForKey:@"name"] == nil) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error Saving" message:@"Please select a service." delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
@@ -111,15 +143,36 @@
             [view.data removeObjectAtIndex:objectService];
         }
         NSMutableDictionary *content = [[NSMutableDictionary alloc] init];
-        [content setObject:height.text forKey:@"length"];
-        [content setObject:width.text forKey:@"width"];
+        
+        
+        NSMutableArray *arrayLength = [[NSMutableArray alloc] init];
+        for (int i = 2;i < sections - 1; i++) {
+            NSMutableDictionary *scales = [[NSMutableDictionary alloc] init];
+            NSLog(@"sec: %d",i);
+            if ([self getObjectAtIndex:0 andSection:i]) {
+                width = [self getObjectAtIndex:0 andSection:i];
+                height = [self getObjectAtIndex:1 andSection:i];
+                sqft = [self getObjectAtIndex:2 andSection:i];
+//                NSLog(@"section: %d, height: %@",i, height);
+//                NSLog(@"subviews: %@",[[[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:i]] contentView] subviews]);
+                [scales setObject:height.text forKey:@"length"];
+                [scales setObject:width.text forKey:@"width"];
+
+
+                if ([height.text isEqualToString:@""] && [width.text isEqualToString:@""]) {
+                    [scales setObject:sqft.text forKey:@"sqft"];
+                }
+                
+                
+                [arrayLength addObject:scales];
+            }
+        }
+        
+        [content setObject:arrayLength forKey:@"units"];
         [content setObject:tax.text forKey:@"tax"];
         [content setObject:service forKey:@"service"];
         
-        if ([height.text isEqualToString:@""] && [width.text isEqualToString:@""]) {
-            [content setObject:sqft.text forKey:@"sqft"];
-        }
-        
+        NSLog(@"content:%@",content);
         [self writeDictionaryToPlist:[[NSMutableDictionary alloc] initWithObjectsAndKeys:tax.text,@"tax", nil]];
         
         [view.data addObject:content];
@@ -135,6 +188,7 @@
     NSString *path = [documentsDirectory stringByAppendingPathComponent:@"data.plist"];
     
     NSMutableDictionary* propertyListValues = [[NSMutableDictionary alloc] initWithContentsOfFile:path];
+    
     return propertyListValues;
 }
 
@@ -150,27 +204,40 @@
 
 - (void)tableView:(UITableView *)aTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [aTableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (indexPath.section == sections - 1) {
+        [self addUnitSection:1 withAnimation:YES];
+    }
     
     
-    NSMutableArray *tempArray = [[NSMutableArray alloc] init];
-    [tempArray addObject:[NSIndexPath indexPathForRow:indexPath.row + 1 inSection:1]];
-    
-    
-    sections++;
-    
-    NSIndexPath *path1 = [NSIndexPath indexPathForRow:0 inSection:3]; //ALSO TRIED WITH indexPathRow:0
-    NSIndexPath *path2 = [NSIndexPath indexPathForRow:1 inSection:3]; //ALSO TRIED WITH indexPathRow:0
-    NSIndexPath *path3 = [NSIndexPath indexPathForRow:2 inSection:3]; //ALSO TRIED WITH indexPathRow:0
-    NSArray *indexArray = [NSArray arrayWithObjects:path1,path2,path3,nil];
-    
-    [[self tableView] beginUpdates];
-    [[self tableView] insertRowsAtIndexPaths:indexArray withRowAnimation:UITableViewRowAnimationFade];
-    [[self tableView] endUpdates];
+}
 
-    [height resignFirstResponder];
-    [width resignFirstResponder];
-    [tax resignFirstResponder];
-    [sqft resignFirstResponder];
+- (void) addUnitSection:(int) times withAnimation:(BOOL) animate{
+    for (int i = 0; i < times; i++) {
+//        NSLog(@"sections: %d",sections);
+        int sec = 2;
+        if (sections < 6) {
+            
+            sections++;
+            NSIndexPath *path1 = [NSIndexPath indexPathForRow:0 inSection:sec]; //ALSO TRIED WITH indexPathRow:0
+            NSIndexPath *path2 = [NSIndexPath indexPathForRow:1 inSection:sec]; //ALSO TRIED WITH indexPathRow:0
+            NSIndexPath *path3 = [NSIndexPath indexPathForRow:2 inSection:sec]; //ALSO TRIED WITH indexPathRow:0
+            NSArray *indexArray = [NSArray arrayWithObjects:path1,path2,path3,nil];
+            NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:sec];
+            
+            if (animate) {
+                [[self tableView] beginUpdates];
+                [self.tableView insertSections:indexSet withRowAnimation:UITableViewRowAnimationFade];
+                [[self tableView] insertRowsAtIndexPaths:indexArray withRowAnimation:UITableViewRowAnimationFade];
+                [[self tableView] endUpdates];
+            }
+            else{
+                [[self tableView] beginUpdates];
+                [self.tableView insertSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
+                [[self tableView] insertRowsAtIndexPaths:indexArray withRowAnimation:UITableViewRowAnimationNone];
+                [[self tableView] endUpdates];
+            }
+        }
+    }
 }
 
 
@@ -185,7 +252,6 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    NSLog(@"section: %d",section);
     if (section < 2 || section == sections - 1) {
         return 1;
     }
@@ -206,8 +272,7 @@
     else if (indexPath.section == 1){
         cell = [tableView dequeueReusableCellWithIdentifier:@"ServiceCell"];
     }
-    else if (indexPath.section >= 2 && indexPath.section < sections){
-        
+    else if (indexPath.section >= 2 && indexPath.section < sections-1){
         switch (indexPath.row) {
             case 0:
                 cell = [tableView dequeueReusableCellWithIdentifier:@"WidthCell"];
@@ -220,6 +285,7 @@
                 break;
                 
             default:
+                NSLog(@"default occcured tho %d",indexPath.row);
                 break;
         }
         
@@ -227,8 +293,27 @@
     else{
         cell = [tableView dequeueReusableCellWithIdentifier:@"AddNewCell"];
     }
+//    cell.textLabel.text = [NSString stringWithFormat:@"%d",[self indexPathToInt:indexPath]];
     
+    
+    
+//
+//    if(![mutArray containsObject:cell])
+//        [mutArray addObject:cell];
+    
+//    if (![mutArray2 containsObject:mutArray])
+//        [mutArray2 insertObject:mutArray atIndex:indexPath.section];
+    
+//    NSLog(@"array: %@",mutArray);
     return cell;
 }
+
+
+- (id) getObjectAtIndex:(int) index andSection:(int) sec
+{
+//    NSLog(@"obj: %@, i: %d, s = %d", [mutArray objectAtIndex:0], index,sec);
+    return [[[[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:sec]] contentView] subviews] objectAtIndex:1];
+}
+
 
 @end

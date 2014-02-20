@@ -309,15 +309,22 @@
     NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
     [formatter setNumberStyle:NSNumberFormatterCurrencyStyle];
     
-    float width = [[obj objectForKey:@"width"] floatValue];
-    float length = [[obj objectForKey:@"length"] floatValue];
-    float totalUnitFL = [[obj objectForKey:@"sqft"] floatValue];
-    NSString *strSQFT = [NSString stringWithFormat:@"Total Unit (%@)",[obj objectForKey:@"sqft"]];
+    NSArray *units = [obj objectForKey:@"units"];
+    float subtotal = 0,width = 0,length = 0,totalUnitFL = 0;
+    
+    for (NSDictionary * dict in units) {
+        
+        width += [[dict objectForKey:@"width"] floatValue];
+        length += [[dict objectForKey:@"length"] floatValue];
+        totalUnitFL += [[dict objectForKey:@"sqft"] floatValue];
+    }
+    
+    NSString *strSQFT = [NSString stringWithFormat:@"Total Unit (%2.0f)",totalUnitFL];
     if (totalUnitFL == 0) {
         totalUnitFL = length * width;
-        strSQFT = [NSString stringWithFormat:@"Total Unit (%@ X %@)",[obj objectForKey:@"width"], [obj objectForKey:@"length"]];
+        strSQFT = [NSString stringWithFormat:@"Total Unit (%2.0f X %2.0f)",width, length];
     }
-    float subtotal = totalUnitFL * totalUnitCost.floatValue;
+    subtotal = totalUnitFL * totalUnitCost.floatValue;
     
     if ([taxSTR hasSuffix:@"%"]) {
         taxAmount = [[taxSTR substringToIndex:[taxSTR length] - 1] floatValue]/100;
@@ -350,7 +357,6 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     AddInvoiceViewController *dvc = (AddInvoiceViewController *) [segue.destinationViewController topViewController];
-    NSLog(@"selected row: %d",selectedRow);
     [dvc setSender:self andObject:selectedRow];
 }
 

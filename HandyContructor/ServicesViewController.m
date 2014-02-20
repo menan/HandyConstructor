@@ -46,7 +46,7 @@
     NSString *path = [documentsDirectory stringByAppendingPathComponent:@"service.plist"];
     
     NSMutableArray* propertyListValues = [[NSMutableArray alloc] initWithContentsOfFile:path];
-    NSLog(@"loaded strings were: %@",propertyListValues);
+//    NSLog(@"loaded strings were: %@",propertyListValues);
     return propertyListValues;
 }
 
