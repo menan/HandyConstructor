@@ -199,11 +199,14 @@
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Total length" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="iBW-TS-ol1">
+                                        <textField opaque="NO" clipsSubviews="YES" tag="5" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Total length" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="iBW-TS-ol1">
                                             <rect key="frame" x="79" y="7" width="221" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                             <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
+                                            <connections>
+                                                <action selector="calculateUnit:" destination="IZD-Y5-e1a" eventType="editingChanged" id="3gF-hN-2i9"/>
+                                            </connections>
                                         </textField>
                                     </subviews>
                                 </tableViewCellContentView>
@@ -222,11 +225,14 @@
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Total width" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="in2-69-RVq">
+                                        <textField opaque="NO" clipsSubviews="YES" tag="6" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Total width" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="in2-69-RVq">
                                             <rect key="frame" x="73" y="7" width="227" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                             <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
+                                            <connections>
+                                                <action selector="calculateUnit:" destination="IZD-Y5-e1a" eventType="editingChanged" id="Z6G-Fn-aKw"/>
+                                            </connections>
                                         </textField>
                                     </subviews>
                                 </tableViewCellContentView>
@@ -245,11 +251,14 @@
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Total square foot" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tOO-e5-RSd">
+                                        <textField opaque="NO" clipsSubviews="YES" tag="7" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Total square foot" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tOO-e5-RSd">
                                             <rect key="frame" x="141" y="7" width="159" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                             <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
+                                            <connections>
+                                                <action selector="calculateUnit:" destination="IZD-Y5-e1a" eventType="editingChanged" id="d19-dr-oez"/>
+                                            </connections>
                                         </textField>
                                     </subviews>
                                 </tableViewCellContentView>

@@ -118,10 +118,19 @@
 }
 
 - (IBAction)calculateUnit:(id)sender{
-    sqft.enabled = NO;
-    if (![height.text isEqualToString:@""] || ![height.text isEqualToString:@""]) {
+    UITextField *text = sender;
+    
+    width = (UITextField *)[self.tableView viewWithTag:6];
+    height = (UITextField *)[self.tableView viewWithTag:5];
+    sqft = (UITextField *)[self.tableView viewWithTag:7];
+    
+    
+    NSLog(@"SuperView: %@ width:%@, length: %@, sqft: %@",text.superview.superview.superview, width.text,height.text,sqft.text);
+    if (![height.text isEqualToString:@""] || ![width.text isEqualToString:@""]) {
+        sqft.enabled = NO;
         sqft.text = [NSString stringWithFormat:@"%2.0f",[height.text floatValue] * [width.text floatValue]];
     }
+    
 }
 
 - (IBAction)cancelTapped:(id)sender {
@@ -149,7 +158,7 @@
         for (int i = 2;i < sections - 1; i++) {
             NSMutableDictionary *scales = [[NSMutableDictionary alloc] init];
             NSLog(@"sec: %d",i);
-            if ([self getObjectAtIndex:0 andSection:i]) {
+            if ([self getObjectAtIndex:0 andSection:i] && [self getObjectAtIndex:1 andSection:i] && [self getObjectAtIndex:2 andSection:i]) {
                 width = [self getObjectAtIndex:0 andSection:i];
                 height = [self getObjectAtIndex:1 andSection:i];
                 sqft = [self getObjectAtIndex:2 andSection:i];
